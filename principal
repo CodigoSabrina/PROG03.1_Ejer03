@@ -18,7 +18,7 @@ public static void main(String[] args) {
         System.out.print("8.- Obtener nota minima\n");
         System.out.print("9.- Salir\n");
         System.out.print("--------------\n");
-        while (seleccion != 0)
+        while (seleccion != 9)
         {
             System.out.print("\n=> Introduce una opcion: ");
             seleccion = entrada.nextInt();
@@ -239,7 +239,7 @@ public static void main(String[] args) {
                         System.out.printf("%.2f \n", aux);
                     }
                     break;
-                case 0:
+                case 9:
                     System.out.print("--------------\n");
                     System.out.print("Has cerrado el programa.\n");
                     break;
