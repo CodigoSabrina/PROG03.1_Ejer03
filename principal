@@ -1,0 +1,251 @@
+public static void main(String[] args) {
+        // TODO code application logic here
+        
+        Scanner entrada = new Scanner (System.in);
+        int index = 0, seleccion = 1, contadorBorrados = 0;
+        double check = 0, aux = 0;
+        double[] notas = new double[0], nuevaNota = new double[0], borrarNota = new double[0], ordenNota = new double[0];
+        boolean notaCorrecta = true;
+        
+        System.out.print("Gestion de notas:\n");
+        System.out.print("1.- Anadir nota\n");
+        System.out.print("2.- Borrar nota\n");
+        System.out.print("3.- Borrar posicion\n");
+        System.out.print("4.- Ordenar notas (ascendente)\n");
+        System.out.print("5.- Mostrar notas\n");
+        System.out.print("6.- Calcular media\n");
+        System.out.print("7.- Obtener nota maxima\n");
+        System.out.print("8.- Obtener nota minima\n");
+        System.out.print("9.- Salir\n");
+        System.out.print("--------------\n");
+        while (seleccion != 0)
+        {
+            System.out.print("\n=> Introduce una opcion: ");
+            seleccion = entrada.nextInt();
+
+            switch (seleccion)
+            {
+                case 1:
+                    System.out.print("--------------\n");
+                    System.out.print("Estas a punto de anadir una nueva nota a la lista del alumno.\n");
+                    
+                    nuevaNota = new double[notas.length + 1];
+                    System.arraycopy (notas, 0, nuevaNota, 0, notas.length);
+                    do 
+                    {
+                        if (notaCorrecta == false)
+                        {
+                            System.out.print("ERROR: La nota debe comprender entre el 0 y el 10.\n");
+                        }
+                        System.out.print("\nIntroduce la nueva nota: ");
+                        check = entrada.nextDouble();
+                        if (check < 0 || check > 10)
+                        {
+                            notaCorrecta = false;
+                        }
+                        else
+                        {
+                            notaCorrecta = true;
+                        }
+                    }
+                    while (notaCorrecta == false);
+                    nuevaNota[nuevaNota.length - 1] = check;
+                    notas = new double[nuevaNota.length];
+                    System.arraycopy (nuevaNota, 0, notas, 0, notas.length);
+                    break;
+                case 2:
+                    System.out.print("--------------\n");
+                    System.out.print("Estas a punto de eliminar todas las notas iguales a la que desees.\n");
+                    borrarNota = new double[notas.length];
+                    System.arraycopy(notas, 0, borrarNota, 0, notas.length);
+                    do 
+                    {
+                        if (notaCorrecta == false)
+                        {
+                            System.out.print("ERROR: La nota debe comprender entre el 0 y el 10.\n");
+                        }
+                        System.out.print("\nIntroduce la nota que deseas borrar en todo el registro: ");
+                        check = entrada.nextDouble();
+                        if (check < 0 || check > 10)
+                        {
+                            notaCorrecta = false;
+                        }
+                        else
+                        {
+                            notaCorrecta = true;
+                        }
+                    }
+                    while (notaCorrecta == false);
+                    while (index < borrarNota.length)
+                    {
+                        if (check == borrarNota[index])
+                        {
+                            System.arraycopy(borrarNota, index + 1, borrarNota, index , borrarNota.length - 1 - index);
+                            contadorBorrados++;
+                            borrarNota = Arrays.copyOf(borrarNota, borrarNota.length - 1);
+                        }
+                        else
+                        {
+                            index++;
+                        }
+                    }
+                    
+                    if (contadorBorrados > 0)
+                    {
+                        System.out.printf("Han sido borrados %d notas.\n", contadorBorrados);
+                    }
+                    else
+                    {
+                        System.out.print("La nota introducida no se encontraba entre las existentes, por lo tanto, ninguna ha sido borrada.\n");
+                    }
+                    
+                    notas = Arrays.copyOf(notas, borrarNota.length);
+                    System.arraycopy(borrarNota, 0, notas, 0, notas.length);
+                    
+                    index = 0;
+                    contadorBorrados = 0;
+                    break;
+                case 3:
+                    System.out.print("--------------\n");
+                    System.out.print("Estas a punto de eliminar la nota de la posicion que desees.\n");
+                    borrarNota = new double[notas.length];
+                    System.arraycopy(notas, 0, borrarNota, 0, notas.length);
+                    System.out.print("\nIntroduce la posicion en el registro de la nota, comenzando por el 0: ");
+                    check = entrada.nextInt();
+                    if (check < 0 || check > borrarNota.length - 1)
+                    {
+                        System.out.print("No se ha podido borrar ninguna nota.\n");
+                    }
+                    else if (check < borrarNota.length)
+                    {
+                        System.arraycopy(borrarNota, (int)check + 1, borrarNota, (int)check, borrarNota.length - 1 - (int)check);
+                        borrarNota = Arrays.copyOf(borrarNota, borrarNota.length - 1);
+
+                        System.out.print("El borrado tuvo exito.\n");
+                    }
+                    else
+                    {
+                        borrarNota = Arrays.copyOf(borrarNota, borrarNota.length - 1);
+                        System.out.print("El borrado tuvo exito.\n");
+                    }
+                    notas = Arrays.copyOf(notas, borrarNota.length);
+                    System.arraycopy(borrarNota, 0, notas, 0, notas.length);
+                    
+                    break;
+                case 4:
+                    if (notas.length == 0)
+                    {
+                        System.out.print("--------------\n");
+                        System.out.print("No hay datos que mostrar.\n");
+                    }
+                    else
+                    {
+                        System.out.print("--------------\n");
+                        System.out.print("Aqui tienes una lista de las notas ordenadas de forma ascendente: \n");
+                        ordenNota = new double[notas.length];
+                        System.arraycopy(notas, 0, ordenNota, 0, ordenNota.length);
+                        Arrays.sort(ordenNota);                  
+                        System.out.print("\n");
+                        for (int i = 0; i < ordenNota.length; i++)
+                        {
+                            System.out.printf("%.2f ", ordenNota[i]);
+                        }
+                        System.out.print("\n");
+                    }
+                    break;
+                case 5:
+                    if (notas.length == 0)
+                    {
+                        System.out.print("--------------\n");
+                        System.out.print("No hay datos que mostrar.\n");
+                    }
+                    else
+                    {
+                        System.out.print("--------------\n");
+                        System.out.print("Aqui tienes una lista de las notas ordenadas de mas reciente a mas antigua: \n");
+                        ordenNota = new double[notas.length];
+                        System.arraycopy(notas, 0, ordenNota, 0, ordenNota.length);
+                        for (int i = 0; i < ordenNota.length / 2; i++)
+                        {
+                            aux = ordenNota[i];
+                            ordenNota[i] = ordenNota[ordenNota.length - 1 - i];
+                            ordenNota[ordenNota.length - 1 - i] = aux;
+                        }
+                        System.out.print("\n");
+                        for (int i = 0; i < ordenNota.length; i++)
+                        {
+                            System.out.printf("%.2f ", ordenNota[i]);
+                        }
+                        System.out.print("\n");
+                    }
+                    break;
+                case 6:
+                    if (notas.length == 0)
+                    {
+                        System.out.print("--------------\n");
+                        System.out.print("No hay datos que mostrar.\n");
+                    }
+                    else
+                    {
+                        check = 0;
+                        System.out.print("--------------\n");
+                        System.out.print("Aqui tienes la media: \n");
+                        for (int i = 0; i < notas.length; i++)
+                        {
+                            check += notas[i];
+                        }
+                        System.out.printf("\n%.2f\n", (check / notas.length));
+                    }
+                    break;
+                case 7:
+                    if (notas.length == 0)
+                    {
+                        System.out.print("--------------\n");
+                        System.out.print("No hay datos que mostrar.\n");
+                    }
+                    else
+                    {
+                        System.out.print("--------------\n");
+                        System.out.print("Aqui tienes la nota maxima: \n");
+                        aux = notas[0];
+                        for (int i = 0; i < notas.length; i++)
+                        {
+                            if (notas[i] > aux)
+                            {
+                                aux = notas[i];
+                            }
+                        }
+                        System.out.printf("\n%.2f \n", aux);
+                    }
+                    break;
+                case 8:
+                    if (notas.length == 0)
+                    {
+                        System.out.print("--------------\n");
+                        System.out.print("No hay datos que mostrar.\n");
+                    }
+                    else
+                    {
+                        System.out.print("--------------\n");
+                        System.out.print("Aqui tienes la nota minima: \n");
+                        aux = notas[0];
+                        for (int i = 0; i < notas.length; i++)
+                        {
+                            if (notas[i] < aux)
+                            {
+                                aux = notas[i];
+                            }
+                        }
+                        System.out.printf("%.2f \n", aux);
+                    }
+                    break;
+                case 0:
+                    System.out.print("--------------\n");
+                    System.out.print("Has cerrado el programa.\n");
+                    break;
+                default:
+                    System.out.print("El valor introducido no esta contemplado - por favor, intentalo de nuevo.\n");
+                    break;
+            }
+        }
+    }
